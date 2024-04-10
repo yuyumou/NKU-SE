@@ -1,5 +1,7 @@
 # 运行环境
+
 node 10.23.0
+
 npm 6.14.8
 
 # NKU-SE 课程项目-前端
@@ -19,6 +21,7 @@ npm run dev
 首先需要配置config中的相关文件
 
 db中的*.sql为mysql的建表语句，需要在mysql中执行
+
 ## Build Setup
 
 ``` bash
