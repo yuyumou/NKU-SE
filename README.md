@@ -17,6 +17,7 @@ npm run dev
 # NKU-SE 课程项目-后端
 
 首先需要配置config中的相关文件
+
 db中的*.sql为mysql的建表语句，需要在mysql中执行
 ## Build Setup
 
