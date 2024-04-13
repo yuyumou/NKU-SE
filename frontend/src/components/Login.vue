@@ -26,16 +26,18 @@ export default {
       password: ''
     }
   },
-  created () {
-  },
+  created () {},
   methods: {
     LoginHandler () {
       var url = 'http://localhost:3000/login'
 
       if (this.username === '') {
         alert('用户名不能为空')
-      } else if (this.password === '') {
+        return
+      }
+      if (this.password === '') {
         alert('密码不能为空')
+        return
       }
 
       axios.post(url, {
@@ -47,7 +49,8 @@ export default {
         if (res.data.status === 202) {
           alert('用户名或密码错误')
         } else if (res.data.status === 200) {
-          setTimeout(function () { window.location.href = '..' }, 1000)
+          localStorage.setItem('token', res.data.token)
+          this.$router.push('/')
           alert('登陆成功！点击确定跳转到主页')
         } else {
           alert('服务器内部错误')

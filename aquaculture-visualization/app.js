@@ -23,17 +23,20 @@ app.all('*', function(req, res, next){
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
-var loginRouter = require('./routes/user/login');
-var registerRouter = require('./routes/user/register');
-app.use('/login', loginRouter);
-app.use('/register', registerRouter);
-  
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+var loginRouter = require('./routes/user/login');
+var registerRouter = require('./routes/user/register');
+app.use('/login', loginRouter);
+app.use('/register', registerRouter);
+
+const tokenhandler = require("./utils/token");
+app.use('/', tokenhandler.verify);
+app.use('/home/*', tokenhandler.verify);
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

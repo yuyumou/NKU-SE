@@ -44,10 +44,15 @@ export default {
 
       if (this.username === '') {
         alert('用户名不能为空')
-      } else if (this.password === '') {
+        return
+      }
+      if (this.password === '') {
         alert('密码不能为空')
-      } else if (this.EmailChecker(this.email) === false) {
+        return
+      }
+      if (this.EmailChecker(this.email) === false) {
         alert('邮箱不合法')
+        return
       }
 
       axios.post(url, {
