@@ -1,26 +1,20 @@
 <template>
   <div class="main">
     <h1>{{ msg }}</h1>
-    <div class='login'>
-      <input type="button"  value="登录" onclick='location.href=("login")' />
-    </div>
-    <div class='register'>
-      <input type="button"  value="注册" onclick='location.href=("register")' />
+    <div v-if="!isLoggedIn" class="auth-buttons">
+      <button @click="redirectTo('login')">登录</button>
+      <button @click="redirectTo('register')">注册</button>
     </div>
 
-    <button @click.prevent="LogoutHandler">注销</button>
-
-    <div class='admin'>
-      <input type="button"  value="管理员面板" onclick='location.href=("home/admin")' />
+    <div v-if="isLoggedIn" class="logged-in">
+      <button @click.prevent="LogoutHandler">注销</button>
+      <button v-if="isAdmin" @click="redirectTo('home/admin')">管理员面板</button>
+      <button @click="redirectTo('home/userhome')">可视化系统主页</button>
     </div>
 
-    <div class='user'>
-      <input type="button"  value="可视化系统主页" onclick='location.href=("home/userhome")' />
-    </div>
-
-    <p>TODO():非登录状态隐藏注销按钮，登录状态隐藏登录和注册按钮</p>
-    <p>拦截功能未完全实现，见api/interceptor.js</p>
-    <p>目前拦截只区分登录和未登录，后续需要对非管理员进行拦截</p>
+    <p>登录状态会显示注销、管理员面板（若为管理员）、可视化系统主页按钮；未登录状态则显示登录和注册按钮。</p>
+    <p>权限和登录状态检查在api/interceptor.js中处理。</p>
+    <p>TODO : 假设isAdmin从后端返回</p>
   </div>
 </template>
 
@@ -30,48 +24,74 @@ export default {
   name: 'Main',
   data () {
     return {
-      msg: ''
+      msg: '',
+      isLoggedIn: false,
+      isAdmin: false
     }
   },
   created () {
-    var url = 'http://localhost:3000/'
-    axios.get(url, {
-      headers: {
-        Authorization: window.localStorage.getItem('token')
-      }
+    axios.get('http://localhost:3000/', {
+      headers: { Authorization: localStorage.getItem('token') }
     }).then(res => {
       if (res.data.status === 223) {
-        this.msg = '没有登陆'
+        this.msg = '没有登录'
+        this.isLoggedIn = false
       } else {
         this.msg = '已经登录'
+        this.isLoggedIn = true
+        this.isAdmin = true
+        // TODO : 假设isAdmin从后端返回
+        // this.isAdmin = res.data.isAdmin;
       }
-    }).catch(error => {
-      console.log(error)
-    })
+    }).catch(error => console.error(error))
   },
   methods: {
     LogoutHandler () {
       localStorage.removeItem('token')
       location.reload()
+    },
+    redirectTo (route) {
+      location.href = route
     }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
+.main {
+  font-family: Arial, sans-serif;
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+h1 {
+  color: #333;
+  text-align: center;
 }
-li {
+button {
+  background-color: #42b983;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
   display: inline-block;
-  margin: 0 10px;
+  font-size: 16px;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
 }
-a {
-  color: #42b983;
+button:hover {
+  background-color: #369b7a;
+}
+.auth-buttons, .logged-in {
+  text-align: center;
+}
+p {
+  color: #666;
+  font-size: 14px;
+  text-align: center;
 }
 </style>

@@ -50,6 +50,9 @@ export default {
           alert('用户名或密码错误')
         } else if (res.data.status === 200) {
           localStorage.setItem('token', res.data.token)
+          // localStorage.setItem('username', res.data.username)
+          // localStorage.setItem('userid', res.data.userid)
+          // localStorage.setItem('userlevel', res.level)
           this.$router.push('/')
           alert('登陆成功！点击确定跳转到主页')
         } else {

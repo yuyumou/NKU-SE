@@ -38,7 +38,6 @@ export default {
         return true
       }
     },
-
     RegisterHandler: function () {
       var url = 'http://localhost:3000/register'
 
@@ -64,6 +63,8 @@ export default {
       }).then(res => {
         if (res.data.status === 202) {
           alert('用户名已存在')
+        } else if (res.data.status === 203) {
+          alert('邮箱已被注册')
         } else if (res.data.status === 200) {
           setTimeout(function () { window.location.href = 'login' }, 1000)
           alert('注册完成！点击确定跳转到登录页面')
@@ -74,6 +75,7 @@ export default {
         console.log(err)
       })
     }
+
   }
 }
 </script>
