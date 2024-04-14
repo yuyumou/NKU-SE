@@ -39,9 +39,10 @@ export default {
       } else {
         this.msg = '已经登录'
         this.isLoggedIn = true
-        this.isAdmin = true
+        // this.isAdmin = true
         // TODO : 假设isAdmin从后端返回
-        // this.isAdmin = res.data.isAdmin;
+        this.isAdmin = res.data.level
+        // this.msg = res.data
       }
     }).catch(error => console.error(error))
   },
