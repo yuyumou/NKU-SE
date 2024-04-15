@@ -1,21 +1,24 @@
 <template>
-    <div class="guide">
-        <p>这里应该有导航栏</p>
-    <div v-if="isLoggedIn" class="navigation">
-      <button @click="redirectTo('main-data')">主要数据</button>
-      <button @click="redirectTo('underwater-system')">水下系统</button>
-      <button @click="redirectTo('data-center')">数据中心</button>
-      <button @click="redirectTo('intelligence-center')">智能中心</button>
-      <button v-if="isAdmin" @click="redirectTo('admin-management')">管理员管理界面</button>
-    </div>
-    <div v-else class="auth-buttons">
-      <p>请登录以访问系统</p>
-    </div>
-        <router-view></router-view>
-    </div>
-  </template>
+  <div class="guide">
+      <p>这里应该有导航栏</p>
+      <div v-if="isLoggedIn" class="navigation">
+          <el-button @click="redirectTo('main-data')" type="success">主要数据</el-button>
+          <el-button @click="redirectTo('underwater-system')" type="success">水下系统</el-button>
+          <el-button @click="redirectTo('data-center')" type="success">数据中心</el-button>
+          <el-button @click="redirectTo('intelligence-center')" type="success">智能中心</el-button>
+          <el-button v-if="isAdmin" @click="redirectTo('admin-management')" type="warning">管理员管理界面</el-button>
+      </div>
+      <div v-else class="auth-buttons">
+          <p>请登录以访问系统</p>
+      </div>
+      <router-view></router-view>
+  </div>
+</template>
+
 
 <script>
+import { Button, MessageBox } from 'element-ui'
+
 export default {
   name: 'Home',
   data () {
@@ -41,7 +44,7 @@ export default {
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   text-align: center;
 }
-h1 {
+/* h1 {
   color: #333;
   margin-bottom: 20px;
 }
@@ -61,9 +64,9 @@ button {
 }
 button:hover {
   background-color: #369b7a;
-}
-.auth-buttons p, .navigation {
+} */
+/* .auth-buttons p, .navigation {
   color: #666;
   font-size: 14px;
-}
+} */
 </style>
