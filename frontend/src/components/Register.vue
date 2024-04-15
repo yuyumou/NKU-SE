@@ -1,6 +1,6 @@
 <template>
   <div id="background">
-    <el-form id="contain" @submit.prevent="RegisterHandler">
+    <el-form id="contain" >
 
       <el-form-item label="用户名：">
         <el-input v-model.trim="username" placeholder="请输入用户名"></el-input>
@@ -11,7 +11,7 @@
       <el-form-item label="邮箱：">
         <el-input type="email" v-model.trim="email" placeholder="请输入邮箱地址"></el-input>
       </el-form-item>
-      <el-button type="primary" native-type="submit">注册</el-button>
+      <el-button type="primary" native-type="submit" @click.prevent="RegisterHandler">注册</el-button>
     </el-form>
   </div>
 </template>
