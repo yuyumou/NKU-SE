@@ -1,22 +1,25 @@
 <template>
   <div id="background">
-    <div id="contain">
-      <h1>登录</h1>
+    <el-form id="contain" ref="loginForm" @submit.prevent="LoginHandler">
+      <!-- <h1>登录</h1> -->
 
-      <div class="form">
-        <label>用户名：</label><input type="text" v-model.trim="username"><br/>
-      </div>
-      <div class="form">
-        <label>密码：</label><input type="password" v-model.trim="password"><br/>
-      </div>
-      <button @click.prevent="LoginHandler">登录</button>
-    </div>
-    <p>TODO():保存登录状态</p>
+      <el-form-item label="用户名" required>
+        <el-input v-model.trim="username" placeholder="请输入用户名"></el-input>
+      </el-form-item>
+
+      <el-form-item label="密码" required>
+        <el-input type="password" v-model.trim="password" placeholder="请输入密码" @keyup.enter.native="LoginHandler"></el-input>
+      </el-form-item>
+
+      <el-button type="primary" @click.prevent="LoginHandler">登录</el-button>
+      
+    </el-form>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import { Button, Form, FormItem, Input, Notification } from 'element-ui';
 
 export default {
   name: 'Test',
@@ -68,19 +71,16 @@ export default {
 
 <style scoped>
 #contain{
-  width: 580px;
-  height: 560px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  background:#00000090;
-  text-align: center;
-  border-radius: 20px;
+  font-family: Arial, sans-serif;
+  max-width: 600px;
+  margin: auto;
+  padding: 30px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  height: 300px;
 }
-#contain h1{
+/* #contain h1{
   color: white;
-}
+} */
 .form{
   color: white;
   margin-left: 20%;
@@ -102,20 +102,18 @@ input,textarea{
   font: normal 13px/100% Verdana,Tahoma,sans-serif;
   width: 200px;
   height: 20px;
-  background:#f1f1f190;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
 }
-input:hover,textarea:hover,input:focus,textarea:focus{border-color:#0d0aa1;}
+/* input:hover,textarea:hover,input:focus,textarea:focus{border-color:#0d0aa1;}
 button{
   position: relative;
   height: 33px;
   width: 150px;
-  background: rgba(35, 19, 252, 0.425);
   border-radius: 10px;
   margin-top: 38px;
   box-shadow: none;
   color: white;
   margin-left: 40px;
-}
+} */
 
 </style>

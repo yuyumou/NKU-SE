@@ -1,23 +1,23 @@
 <template>
-    <div id="background">
-      <div id="contain">
-        <h1>注册</h1>
+  <div id="background">
+    <el-form id="contain" @submit.prevent="RegisterHandler">
 
-        <div class="form">
-          <label>用户名：</label><input type="text" v-model.trim="username"><br/>
-        </div>
-        <div class="form">
-          <label>密码：</label><input type="password" v-model.trim="password"><br/>
-        </div>
-        <div class="form">
-          <label>邮箱：</label><input type="email" v-model.trim="email"><br/>
-        </div>
-        <button @click.prevent="RegisterHandler">注册</button>
-      </div>
-      <p>TODO():发送邮箱验证码，检验邮箱是否已被注册</p>
-    </div>
+      <el-form-item label="用户名：">
+        <el-input v-model.trim="username" placeholder="请输入用户名"></el-input>
+      </el-form-item>
+      <el-form-item label="密码：">
+        <el-input type="password" v-model.trim="password" placeholder="请输入密码"></el-input>
+      </el-form-item>
+      <el-form-item label="邮箱：">
+        <el-input type="email" v-model.trim="email" placeholder="请输入邮箱地址"></el-input>
+      </el-form-item>
+      <el-button type="primary" native-type="submit">注册</el-button>
+    </el-form>
+  </div>
 </template>
+
 <script>
+import { Button, Form, FormItem, Input, Notification } from 'element-ui';
 import axios from 'axios'
 
 export default {
@@ -82,21 +82,15 @@ export default {
 
 <style scoped>
 #contain{
-  width: 580px;
-  height: 560px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  background:#00000090;
-  text-align: center;
-  border-radius: 20px;
-}
-#contain h1{
-  color: white;
+  font-family: Arial, sans-serif;
+  max-width: 600px;
+  margin: auto;
+  padding: 30px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  height: 350px;
 }
 .form{
-  color: white;
+  /* color: white; */
   margin-left: 20%;
   margin-top: 60px;
   font-size: 20px;
@@ -108,6 +102,7 @@ label{
   margin-right: 1em;
   text-align: right;
 }
+/*
 input,textarea{
   margin-left: 10px;
   padding: 4px;
@@ -130,5 +125,5 @@ button{
   box-shadow: none;
   color: white;
   margin-left: 40px;
-}
+} */
 </style>

@@ -4,10 +4,14 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import interceptor from './api/interceptor'
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
+Vue.use(ElementUI);
+
 const vm = new Vue({
   el: '#app',
   router,
