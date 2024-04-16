@@ -21,6 +21,8 @@ tokenhandler.verify = (req,res,next) => {
             return res.json({ status: 223, msg: "token无效" });
         }
         console.log('verify success')
+        // res.send(res.json({username: decoded.username,level: decoded.level}))
+        req.level = decoded.level;
         next();
     })
 }

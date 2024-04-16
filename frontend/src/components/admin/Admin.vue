@@ -13,6 +13,7 @@
 
 <script>
 import axios from 'axios'
+// import { response } from '../../../../aquaculture-visualization/app'
 
 export default {
   name: 'Admin',
@@ -30,6 +31,20 @@ export default {
         })
         .catch(error => {
           console.error(error)
+        })
+    },
+    promoteUser (username) {
+      // alert('promoting' + username)
+      // eslint-disable-next-line
+      var url = `http://localhost:3000/admin/level_up/${username}`
+      axios.put(url, {params: {userName: username}})
+        .then(response => {
+          console.log(response)
+          if (response.error === undefined) {
+            alert('成功')
+          } else {
+            alert('失败')
+          }
         })
     }
   }

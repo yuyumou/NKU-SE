@@ -32,6 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 var loginRouter = require('./routes/user/login');
 var registerRouter = require('./routes/user/register');
 var adminAlluserRouter = require('./routes/admin/all_users');
+var adminLevelUpRouter = require('./routes/admin/level_up');
 
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
@@ -41,7 +42,7 @@ app.use('/', tokenhandler.verify);
 app.use('/home/*', tokenhandler.verify);
 
 app.use('/admin/allusers', adminAlluserRouter);
-
+app.use('/admin/level_up', adminLevelUpRouter);
 
 
 app.use('/', indexRouter);

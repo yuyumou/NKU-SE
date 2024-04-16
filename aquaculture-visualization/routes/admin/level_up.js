@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 var db = require('../../utils/db');
 
-router.put('/', async function(req, res, next) {
+router.put(`/:userName`, async function(req, res, next) {
+    // console.log(req.params);
     var userName = req.params.userName;
     var sql = 'UPDATE user SET user_level = 1 WHERE user_name = ?';
     await db.query(sql, [userName])
