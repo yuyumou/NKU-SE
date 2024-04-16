@@ -31,12 +31,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var loginRouter = require('./routes/user/login');
 var registerRouter = require('./routes/user/register');
+var adminAlluserRouter = require('./routes/admin/all_users');
+
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
 
 const tokenhandler = require("./utils/token");
 app.use('/', tokenhandler.verify);
 app.use('/home/*', tokenhandler.verify);
+
+app.use('/admin/allusers', adminAlluserRouter);
+
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

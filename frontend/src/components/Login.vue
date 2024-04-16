@@ -12,14 +12,14 @@
       </el-form-item>
 
       <el-button type="primary" @click.prevent="LoginHandler">登录</el-button>
-      
+
     </el-form>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-import { Button, Form, FormItem, Input, Notification } from 'element-ui';
+// import { Button, Form, FormItem, Input, Notification } from 'element-ui';
 
 export default {
   name: 'Test',

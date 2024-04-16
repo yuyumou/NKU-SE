@@ -1,5 +1,5 @@
 <template>
-  <div class="main">  
+  <div class="main">
     <!-- <h1>可视化系统主页</h1> -->
     <p>UserHome.vue: hello world!!!</p>
   </div>

@@ -15,9 +15,8 @@
   </div>
 </template>
 
-
 <script>
-import { Button, MessageBox } from 'element-ui'
+// import { Button, MessageBox } from 'element-ui'
 
 export default {
   name: 'Home',
