@@ -41,6 +41,7 @@ export default {
         .then(response => {
           console.log(response)
           if (response.error === undefined) {
+            // TODO()：动态更新level的值
             alert('成功')
           } else {
             alert('失败')

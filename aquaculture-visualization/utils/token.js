@@ -27,4 +27,6 @@ tokenhandler.verify = (req,res,next) => {
     })
 }
 
+//TODO(): verifyAdmin
+
 module.exports = tokenhandler
