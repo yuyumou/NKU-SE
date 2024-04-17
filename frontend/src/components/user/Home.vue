@@ -23,7 +23,8 @@ export default {
   data () {
     return {
       isLoggedIn: true, // 假设从后端验证或前端状态管理获取
-      isAdmin: true // 假设从后端验证或前端状态管理获取
+      // TODO(): getisadmin
+      isAdmin: true
     }
   },
   methods: {
