@@ -38,11 +38,10 @@ export default {
       } else {
         this.msg = '已经登录'
         this.isLoggedIn = true
-        // this.isAdmin = true
         // TODO : 假设isAdmin从后端返回
-        this.isAdmin = res.data.level
-        // this.msg = res.data
-        // console.log(res.data)
+        axios.get('http://localhost:9961').then(ret => {
+          this.isAdmin = ret.data.level
+        })
       }
     }).catch(error => console.error(error))
   },

@@ -37,13 +37,13 @@ export default {
       // alert('promoting' + username)
       // eslint-disable-next-line
       var url = `http://localhost:3000/admin/level_up/${username}`
-      axios.put(url, {params: {userName: username}})
+      axios.put(url)
         .then(response => {
-          console.log(response)
-          if (response.error === undefined) {
-            alert('成功')
+          console.log(response.data)
+          if (response.data.message === undefined) {
+            alert(response.data.msg)
           } else {
-            alert('失败')
+            alert(response.data.message)
           }
         })
     }
