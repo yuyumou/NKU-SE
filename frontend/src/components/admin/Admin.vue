@@ -45,6 +45,7 @@ export default {
           } else {
             alert(response.data.message)
           }
+          this.getAllUsers()
         })
     }
   }
