@@ -27,12 +27,12 @@ tokenhandler.verify = (req,res,next) => {
 
 tokenhandler.adminVerify = (req,res,next) => {
     if(req.headers.authorization == undefined) {
-        return res.json({ status: 223, msg: "token无效" });
+        return res.json({ status: 224, msg: "没有管理员权限" });
     }
     const token = req.headers.authorization.split(" ")[1];
     jwt.verify(token, secretKey, function (err, decoded) {
         if (err || decoded.level != 1) {
-            return res.json({ status: 223, msg: "token无效" });
+            return res.json({ status: 224, msg: "没有管理员权限" });
         }
         console.log('verify success')
         next();
