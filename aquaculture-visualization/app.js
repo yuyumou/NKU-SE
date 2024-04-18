@@ -31,8 +31,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var loginRouter = require('./routes/user/login');
 var registerRouter = require('./routes/user/register');
-var adminAlluserRouter = require('./routes/admin/all_users');
-var adminLevelUpRouter = require('./routes/admin/level_up');
 
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
@@ -40,21 +38,7 @@ app.use('/register', registerRouter);
 const tokenhandler = require("./utils/token");
 app.use('/', tokenhandler.verify);
 app.use('/home/*', tokenhandler.verify);
-
-var tokenParser = express();
-tokenParser.all('*', function(req, res, next){
-  res.header('Access-Control-Allow-Origin',  '*');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With, yourHeaderFeild');
-  res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
-  if (req.method === 'OPTIONS'){
-    res.sendStatus(200);
-  }else{
-    next();
-  }
-});
-tokenParser.use(logger('dev'));
-tokenParser.use('/',tokenhandler.parse);
-tokenParser.listen(9961);
+app.use('/token',tokenhandler.parse);
 
 var admin = require('./routes/admin/admin');
 app.use('/admin',admin);
