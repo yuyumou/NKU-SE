@@ -77,10 +77,8 @@ export default {
   padding: 30px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   height: 300px;
+  margin-top: 60px;
 }
-/* #contain h1{
-  color: white;
-} */
 .form{
   color: white;
   margin-left: 20%;

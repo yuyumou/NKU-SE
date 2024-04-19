@@ -17,7 +17,6 @@
 
 <script>
 import axios from 'axios'
-// import { Button, Message } from 'element-ui';
 
 export default {
   name: 'Main',
@@ -65,6 +64,7 @@ export default {
   padding: 30px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   height: 300px;
+  margin-top: 60px;
 }
 h1 {
   color: #333;
