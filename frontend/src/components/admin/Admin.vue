@@ -79,6 +79,20 @@ export default {
       users: []
     }
   },
+  created () {
+    // console.log('admin created');
+    axios.get('http://localhost:3000/token', {
+      headers: { Authorization: localStorage.getItem('token') }
+    }).then(res => {
+      axios.get('http://localhost:3000/token').then(ret => {
+        this.isAdmin = ret.data.level
+        if (this.isAdmin === 0) {
+          alert('您不是管理员')
+          this.$router.push('/login')
+        }
+      })
+    }).catch(error => console.error(error))
+  },
   methods: {
     getAllUsers () {
       var url = 'http://localhost:3000/admin/allusers'
