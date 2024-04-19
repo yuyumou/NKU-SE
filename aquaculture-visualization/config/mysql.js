@@ -3,7 +3,7 @@ var mysqlconfig = {
     user   : 'root',
     password : '123456',
     port: '3306',
-    database: 'so_db',
+    database: 'se_db',
 }
 
 module.exports = mysqlconfig
