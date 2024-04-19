@@ -10,7 +10,7 @@ router.post('/', async function (req, res, next) {
 	var result = await db.query(sql,[req.body.params.username,crypt_password])
 	// console.log(result)
 	if(result.length > 0){
-		const token = tokenhandler.generate({username: req.body.params.username,level: result[0].user_level})
+		const token = tokenhandler.generate({username: req.body.params.username,level: result[0].user_level,email: result[0].user_email})
 
 		res.send({//成功登录
 			status: 200,
