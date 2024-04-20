@@ -1,38 +1,115 @@
 <template>
   <div class="main">
-
     <el-row type="flex" justify="center" class="header-row">
       <el-col :span="24">
-        <h2 class="main-title">User Management</h2>
+        <h2 class="main-title">User and Admin Management</h2>
       </el-col>
     </el-row>
 
     <el-table
-    :data="users"
-    style="width: 100%">
-
+      :data="users"
+      style="width: 100%">
       <el-table-column
-      prop="user_name"
-      label="Name"
-      >
+        prop="user_name"
+        label="Name">
       </el-table-column>
-
       <el-table-column
         prop="user_level"
-        label="IsAdmin"
-        >
+        label="Is Admin">
         <template slot-scope="scope">
           <el-switch
             v-model="convertedLevels[scope.$index]"
-            @change="handleLevelChange(scope.$index, scope.row)"
-          >
+            @change="handleLevelChange(scope.$index, scope.row)">
           </el-switch>
         </template>
       </el-table-column>
+    </el-table>
 
+    <h2 class="admin-title">Admins</h2>
+    <el-table
+      :data="admin"
+      style="width: 100%">
+      <el-table-column
+        prop="user_name"
+        label="Name">
+      </el-table-column>
+      <el-table-column></el-table-column>
     </el-table>
   </div>
 </template>
+
+<script>
+import axios from 'axios'
+
+export default {
+  name: 'UserAdminManagement',
+  data () {
+    return {
+      users: [],
+      admin: [],
+      convertedLevels: []
+    }
+  },
+  created () {
+    this.fetchData()
+  },
+  methods: {
+    fetchData () {
+      axios.get('http://localhost:3000/token', {
+        headers: { Authorization: localStorage.getItem('token') }
+      }).then(res => {
+        axios.get('http://localhost:3000/token').then(ret => {
+          this.isAdmin = ret.data.level
+          if (this.isAdmin === 0) {
+            alert('您不是管理员')
+            this.$router.push('/')
+          } else {
+            this.getAllUsers()
+            this.getAllAdmins()
+          }
+        })
+      }).catch(error => {
+        console.error('Error fetching token:', error)
+      })
+    },
+    getAllUsers () {
+      axios.get('http://localhost:3000/admin/allusers')
+        .then(response => {
+          this.users = response.data
+          this.convertedLevels = this.users.map(user => user.user_level === 1)
+          console.log('Users loaded:', this.users)
+        })
+        .catch(error => {
+          console.error('Error fetching users:', error)
+        })
+    },
+    getAllAdmins () {
+      axios.get('http://localhost:3000/admin/alladmins')
+        .then(response => {
+          this.admin = response.data
+          console.log('Admins loaded:', this.admin)
+        })
+        .catch(error => {
+          console.error('Error fetching admins:', error)
+        })
+    },
+    handleLevelChange (index, user) {
+      const level = this.convertedLevels[index] ? 1 : 0
+      this.promoteUser(user.user_name)
+      console.log(`User ${user.user_name} level changed to: ${level}`)
+    },
+    promoteUser (username) {
+      axios.put(`http://localhost:3000/admin/level_up/${username}`)
+        .then(response => {
+          console.log(`User ${username} level changed`)
+        })
+        .catch(error => {
+          console.error('Error updating user level', error)
+        })
+    }
+  }
+}
+</script>
 
 <style scoped>
 .main {
@@ -42,68 +119,9 @@
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
-
-.title {
+.main-title, .admin-title {
   font-size: 24px;
-  text-align: center;
-  margin-bottom: 10px;
+  text-align:center;
+  margin-bottom: 20px;
 }
-
 </style>
-
-<script>
-import axios from 'axios'
-
-export default {
-  name: 'Admin',
-  // TODO(): retrieve the username to prevent the user from changing their own level
-  data () {
-    return {
-      users: [],
-      convertedLevels: []
-    }
-  },
-  created () {
-    // console.log('admin created');
-    axios.get('http://localhost:3000/token', {
-      headers: { Authorization: localStorage.getItem('token') }
-    }).then(res => {
-      axios.get('http://localhost:3000/token').then(ret => {
-        this.isAdmin = ret.data.level
-        if (this.isAdmin === 0) {
-          alert('您不是管理员')
-          this.$router.push('/login')
-        } else {
-          this.getAllUsers()
-        }
-      })
-    }).catch(error => console.error(error))
-  },
-  methods: {
-    getAllUsers () {
-      var url = 'http://localhost:3000/admin/allusers'
-      axios.get(url)
-        .then(response => {
-          this.users = response.data
-          this.convertedLevels = this.users.map(user => user.user_level === 1)
-        })
-        .catch(error => {
-          console.error(error)
-        })
-    },
-
-    promoteUser (username) {
-      var url = `http://localhost:3000/admin/level_up/${username}`
-      axios.put(url)
-        .then(response => {
-        })
-    },
-
-    handleLevelChange (index, user) {
-      const level = this.convertedLevels[index]
-      this.promoteUser(user.user_name)
-      console.log(`User ${user.user_name} level changed to: ${level}`)
-    }
-  }
-}
-</script>
