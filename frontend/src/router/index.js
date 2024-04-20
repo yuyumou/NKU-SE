@@ -11,38 +11,12 @@ import MainData from '@/components/function/MainData.vue'
 import UnderwaterSystem from '@/components//function/UnderwaterSystem.vue'
 import DataCenter from '@/components/function/DataCenter.vue'
 import IntelligenceCenter from '@/components/function/IntelligenceCenter.vue'
-import AdminManagement from '@/components/function/AdminManagement.vue'
 
 Vue.use(Router)
 
 const routes = {
   mode: 'history',
   routes: [
-    {
-      path: '/home/main-data',
-      name: 'main-data',
-      component: MainData
-    },
-    {
-      path: '/home/underwater-system',
-      name: 'underwater-system',
-      component: UnderwaterSystem
-    },
-    {
-      path: '/home/data-center',
-      name: 'data-center',
-      component: DataCenter
-    },
-    {
-      path: '/home/intelligence-center',
-      name: 'intelligence-center',
-      component: IntelligenceCenter
-    },
-    {
-      path: '/home/admin-management',
-      name: 'admin-management',
-      component: AdminManagement
-    },
     {
       path: '/',
       name: 'Main',
@@ -70,6 +44,26 @@ const routes = {
         {
           path: 'userhome',
           component: UserHome
+        },
+        {
+          path: 'main-data',
+          name: 'main-data',
+          component: MainData
+        },
+        {
+          path: 'underwater-system',
+          name: 'underwater-system',
+          component: UnderwaterSystem
+        },
+        {
+          path: 'data-center',
+          name: 'data-center',
+          component: DataCenter
+        },
+        {
+          path: 'intelligence-center',
+          name: 'intelligence-center',
+          component: IntelligenceCenter
         }
       ]
     }
@@ -79,7 +73,7 @@ const routes = {
 const router = new Router(routes)
 
 router.beforeEach((to, from, next) => {
-  if (to.path === '/' || to.path === '/login' || to.path === '/register') {
+  if (to.path === '/' || to.path === '/login' || to.path === '/register' || to.path === '/home/userhome') {
     next()
   } else {
     // 从本地存储里获取token
