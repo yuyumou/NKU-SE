@@ -57,6 +57,11 @@ export default {
         this.isLoggedIn = true
         // TODO : 假设isAdmin从后端返回
         axios.get('http://localhost:3000/token').then(ret => {
+          if (ret.data.level === 1) {
+            this.msg = '欢迎，管理员 ' + ret.data.username
+          } else {
+            this.msg = '欢迎，' + ret.data.username
+          }
           this.isAdmin = ret.data.level
         })
       }
