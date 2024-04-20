@@ -1,7 +1,7 @@
 var mysqlconfig = {
     host   : '127.0.0.1',
     user   : 'root',
-    password : '123456',
+    password : 'admin',
     port: '3306',
     database: 'se_db',
 }
