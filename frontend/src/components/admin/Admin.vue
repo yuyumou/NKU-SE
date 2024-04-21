@@ -35,6 +35,11 @@
       </el-table-column>
       <el-table-column></el-table-column>
     </el-table>
+
+    <!-- Save Changes Button -->
+    <el-row type="flex" justify="center" style="margin-top: 20px;">
+      <el-button type="primary" @click="saveChanges">Save Changes</el-button>
+    </el-row>
   </div>
 </template>
 
@@ -106,6 +111,11 @@ export default {
         .catch(error => {
           console.error('Error updating user level', error)
         })
+    },
+    saveChanges () {
+      console.log('Saving changes...')
+      // Here you can add any pre-reload logic or API calls if necessary
+      location.reload() // This reloads the current page
     }
   }
 }
@@ -121,7 +131,7 @@ export default {
 }
 .main-title, .admin-title {
   font-size: 24px;
-  text-align:center;
+  text-align: center;
   margin-bottom: 20px;
 }
 </style>
