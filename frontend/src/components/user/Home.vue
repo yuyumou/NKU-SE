@@ -3,8 +3,8 @@
 
     <h1>{{ msg }}</h1>
     <div v-if="!isLoggedIn" class="auth-buttons">
-      <el-button type="primary" @click="redirectTo('login')">登录</el-button>
-      <el-button type="success" @click="redirectTo('register')">注册</el-button>
+      <el-button type="primary" @click="redirectTo('/login')">登录</el-button>
+      <el-button type="success" @click="redirectTo('/register')">注册</el-button>
     </div>
 
     <div v-if="isLoggedIn" class="logged-in">
