@@ -1,14 +1,9 @@
 <template>
   <div class="guide">
 
-    <h1>{{ msg }}</h1>
     <div v-if="!isLoggedIn" class="auth-buttons">
       <el-button type="primary" @click="redirectTo('/login')">登录</el-button>
       <el-button type="success" @click="redirectTo('/register')">注册</el-button>
-    </div>
-
-    <div v-if="isLoggedIn" class="logged-in">
-      <el-button type="danger" @click.prevent="LogoutHandler">注销</el-button>
     </div>
 
     <el-menu
@@ -17,14 +12,25 @@
       class="el-menu-vertical-demo"
       @open="handleOpen"
       @close="handleClose"
+      style="display: flex; justify-content: space-between;"
       v-if="isLoggedIn"
      >
+      <div style="display: flex;">
         <el-menu-item @click.native="redirectTo('main-data')">主要数据</el-menu-item>
         <el-menu-item @click.native="redirectTo('underwater-system')">水下系统</el-menu-item>
         <el-menu-item @click.native="redirectTo('data-center')">数据中心</el-menu-item>
         <el-menu-item @click.native="redirectTo('intelligence-center')">智能中心</el-menu-item>
         <el-menu-item v-if="isAdmin" @click.native="redirectTo('/home/admin')" type="warning">管理员管理界面</el-menu-item>
+      </div>
 
+      <div style="display: flex; align-items: center; margin-left: auto;">
+        <div>{{ msg }}</div>
+
+        <div v-if="isLoggedIn" class="logged-in">
+          <el-button type="danger" @click.prevent="LogoutHandler">注销</el-button>
+        </div>
+
+      </div>
     </el-menu>
     <div v-else>
       <p>请登录以访问系统</p>
