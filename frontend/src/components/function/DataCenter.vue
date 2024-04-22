@@ -13,22 +13,36 @@
               <div class="total-data block">
                 <h3>数据总量</h3>
                 <div class="total-data-b">
-                  <div></div>
-                  <div></div>
-                  <div></div>
+                  <div class="total-data-b1">
+                    <p>1000</p>
+                  </div>
+                  <div class="total-data-b2">
+                    <p>今日新增</p>
+                    <p>8</p>
+                  </div>
+                  <div class="total-data-b3">
+                    <p>今日处理</p>
+                    <p>8</p>
+                  </div>
                 </div>
               </div>
               <div class="hw-info block">
                 <div class="hw-info-row1">
                   <div class="total-process">
-                    进程总量
+                    <h3>进程总量</h3>
+                    <div class="total-process-num">
+                      1024
+                    </div>
                   </div>
                   <div class="disk">
-                    磁盘
+                    <h3>磁盘</h3>
+                    <div id="disk-chart"></div>
                   </div>
                 </div>
                 <div class="hw-info-row2">
-                  CPU运行状态，内存运行状态，GPU运行状态
+                  <div id="cpu-chart"></div>
+                  <div id="mem-chart"></div>
+                  <div id="gpu-chart"></div>
                 </div>
               </div>
             </div>
@@ -74,10 +88,192 @@
   </template>
 
 <script>
+import * as echarts from 'echarts'
 export default {
   name: 'DataCenter',
   // 组件的其他代码...
   mounted () {
+    var diskChart = echarts.init(document.getElementById('disk-chart'))
+    var cpuChart = echarts.init(document.getElementById('cpu-chart'))
+    var memChart = echarts.init(document.getElementById('mem-chart'))
+    var gpuChart = echarts.init(document.getElementById('gpu-chart'))
+
+    var optionDiskChart = {
+      grid: {
+        left: '0%',
+        right: '0%',
+        bottom: '0%',
+        containLabel: false
+      },
+      tooltip: {
+        trigger: 'item', // 设置提示信息的触发方式为悬停在数据项上
+        formatter: '{b}: {c}GB ({d}%)' // 设置提示信息的格式，其中 {a} 表示系列名称，{b} 表示数据项名称，{c} 表示数据项值，{d} 表示百分比
+      },
+      series: [
+        {
+          name: 'Access From',
+          type: 'pie',
+          radius: '50%',
+          data: [
+            {value: 1048, name: '已占用', itemStyle: { color: '#1f77b4' }},
+            {value: 735, name: '未占用', itemStyle: { color: '#808080' }}
+          ],
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+          }
+        }
+      ]
+    }
+    var optionCpuChart = {
+      grid: {
+        left: '25%',
+        right: '10%',
+        bottom: '100%',
+        containLabel: false
+      },
+      xAxis: {
+        show: false,
+        max: 100
+      },
+      yAxis: {
+        type: 'category',
+        data: ['CPU运行状态'],
+        axisLine: {
+          show: false
+        },
+        axisTick: {
+          show: false
+        },
+        axisLabel: {
+          color: '#fff'
+        }
+      },
+      series: [
+        {
+          name: 'val',
+          type: 'bar',
+          data: [20],
+          itemStyle: {
+            barBorderRadius: 20,
+            color: '#0000FF'
+          },
+          barGategoryGap: 50,
+          barWidth: 15,
+          showBackground: true,
+          backgroundStyle: {
+            borderRadius: 10
+          },
+          label: {
+            show: true,
+            position: 'right',
+            formatter: '{c}%'
+          }
+        }
+      ]
+    }
+    var optionMemChart = {
+      grid: {
+        left: '25%',
+        right: '10%',
+        bottom: '100%',
+        containLabel: false
+      },
+      xAxis: {
+        show: false,
+        max: 100
+      },
+      yAxis: {
+        type: 'category',
+        data: ['内存运行状态'],
+        axisLine: {
+          show: false
+        },
+        axisTick: {
+          show: false
+        },
+        axisLabel: {
+          color: '#fff'
+        }
+      },
+      series: [
+        {
+          name: 'val',
+          type: 'bar',
+          data: [50],
+          itemStyle: {
+            barBorderRadius: 20,
+            color: '#800080'
+          },
+          barGategoryGap: 50,
+          barWidth: 15,
+          showBackground: true,
+          backgroundStyle: {
+            borderRadius: 10
+          },
+          label: {
+            show: true,
+            position: 'right',
+            formatter: '{c}%'
+          }
+        }
+      ]
+    }
+    var optionGpuChart = {
+      grid: {
+        left: '25%',
+        right: '10%',
+        bottom: '100%',
+        containLabel: false
+      },
+      xAxis: {
+        show: false,
+        max: 100
+      },
+      yAxis: {
+        type: 'category',
+        data: ['GPU运行状态'],
+        axisLine: {
+          show: false
+        },
+        axisTick: {
+          show: false
+        },
+        axisLabel: {
+          color: '#fff'
+        }
+      },
+      series: [
+        {
+          name: 'val',
+          type: 'bar',
+          data: [30],
+          itemStyle: {
+            barBorderRadius: 20,
+            color: '#FFA500'
+          },
+          barGategoryGap: 50,
+          barWidth: 15,
+          showBackground: true,
+          backgroundStyle: {
+            borderRadius: 10
+          },
+          label: {
+            show: true,
+            position: 'right',
+            formatter: '{c}%'
+          }
+        }
+      ]
+    }
+    diskChart.setOption(optionDiskChart)
+    cpuChart.setOption(optionCpuChart)
+    memChart.setOption(optionMemChart)
+    gpuChart.setOption(optionGpuChart)
+
     this.loadExternalScript('js/flexible.js')
   }
 }
@@ -126,6 +322,31 @@ export default {
     flex: 9;
     height: 95%;
   }
+  .total-data-b {
+    display: flex;
+    padding: 10px
+  }
+  .total-data-b1 {
+    flex: 6;
+    font-size: 40px;
+    border: solid skyblue 2px;
+    margin-left: 50px;
+    margin-right: 50px;
+  }
+  .total-data-b2 {
+    padding: 5px;
+    flex: 2;
+  }
+  .total-data-b3 {
+    padding: 5px;
+    flex: 2;
+  }
+
+  .total-process-num {
+    padding: 20px;
+    font-size: 4rem;
+  }
+
   .mainbox .column:nth-child(2) {
     flex: 3;
   }
@@ -183,5 +404,22 @@ export default {
   }
   .mainbox .column:nth-child(2) .row3 {
     height: 30%;
+  }
+
+  #disk-chart {
+    height: 80%;
+    width: 100%;
+  }
+  #cpu-chart {
+    height: 30%;
+    width: 100%;
+  }
+  #mem-chart {
+    height: 30%;
+    width: 100%;
+  }
+  #gpu-chart {
+    height: 30%;
+    width: 100%;
   }
 </style>
