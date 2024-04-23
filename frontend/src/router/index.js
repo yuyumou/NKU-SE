@@ -3,7 +3,8 @@ import Router from 'vue-router'
 import Main from '@/components/MainPage.vue'
 import Test from '@/components/Login.vue'
 import Register from '@/components/Register.vue'
-import Admin from '@/components/admin/Admin.vue'
+import UserAdmin from '@/components/admin/UserAdmin.vue'
+import DataAdmin from '@/components/admin/DataAdmin.vue'
 import Home from '@/components/user/Home.vue'
 import UserHome from '@/components/user/UserHome.vue'
 
@@ -39,7 +40,11 @@ const routes = {
       children: [
         {
           path: 'admin',
-          component: Admin
+          component: UserAdmin
+        },
+        {
+          path: 'datas',
+          component: DataAdmin
         },
         {
           path: 'userhome',

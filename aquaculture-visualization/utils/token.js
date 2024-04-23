@@ -31,7 +31,7 @@ tokenhandler.adminVerify = (req,res,next) => {
     }
     const token = req.headers.authorization.split(" ")[1];
     jwt.verify(token, secretKey, function (err, decoded) {
-        if (err || decoded.level != 1) {
+        if (err || decoded.level < 1) { // need update
             return res.json({ status: 224, msg: "没有管理员权限" });
         }
         console.log('verify success')

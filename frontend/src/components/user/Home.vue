@@ -20,11 +20,12 @@
         <el-menu-item @click.native="redirectTo('underwater-system')">水下系统</el-menu-item>
         <el-menu-item @click.native="redirectTo('data-center')">数据中心</el-menu-item>
         <el-menu-item @click.native="redirectTo('intelligence-center')">智能中心</el-menu-item>
-        <el-menu-item v-if="isAdmin" @click.native="redirectTo('/home/admin')" type="warning">管理员管理界面</el-menu-item>
+        <el-menu-item v-if="isAdmin" @click.native="redirectTo('/home/datas')" type="warning">数据管理界面</el-menu-item>
+        <el-menu-item v-if="isUserAdmin" @click.native="redirectTo('/home/admin')" type="warning">用户管理界面</el-menu-item>
       </div>
 
       <div style="display: flex; align-items: center; margin-left: auto;">
-        <div>{{ msg }}</div>
+        <div>{{ msg }}</div> &ensp; &ensp;
 
         <div v-if="isLoggedIn" class="logged-in">
           <el-button type="danger" @click.prevent="LogoutHandler">注销</el-button>
@@ -48,10 +49,12 @@ export default {
     return {
       msg: '',
       isLoggedIn: false,
-      isAdmin: false
+      isAdmin: false,
+      isUserAdmin: false
     }
   },
   created () {
+    console.log(this.isAdmin)
     axios.get('http://localhost:3000/', {
       headers: { Authorization: localStorage.getItem('token') }
     }).then(res => {
@@ -63,12 +66,9 @@ export default {
         this.isLoggedIn = true
         // TODO : 假设isAdmin从后端返回
         axios.get('http://localhost:3000/token').then(ret => {
-          if (ret.data.level === 1) {
-            this.msg = '欢迎，管理员 ' + ret.data.username
-          } else {
-            this.msg = '欢迎，' + ret.data.username
-          }
-          this.isAdmin = ret.data.level
+          this.msg = '欢迎，' + ret.data.username
+          this.isAdmin = ret.data.level >= 1
+          this.isUserAdmin = ret.data.level >= 2
         })
       }
     }).catch(error => console.error(error))

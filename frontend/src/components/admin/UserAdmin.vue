@@ -65,8 +65,8 @@ export default {
       }).then(res => {
         axios.get('http://localhost:3000/token').then(ret => {
           this.isAdmin = ret.data.level
-          if (this.isAdmin === 0) {
-            alert('您不是管理员')
+          if (this.isAdmin === 0 || this.isAdmin === 1) {
+            alert('您的权限不足')
             this.$router.push('/')
           } else {
             this.getAllUsers()

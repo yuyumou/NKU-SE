@@ -8,6 +8,9 @@
       <el-form-item label="密码：">
         <el-input type="password" v-model.trim="password" placeholder="请输入密码"></el-input>
       </el-form-item>
+      <el-form-item label="再次输入密码：">
+        <el-input type="password" v-model.trim="det_password" placeholder="请再次输入密码"></el-input>
+      </el-form-item>
       <el-form-item label="邮箱：">
         <el-input type="email" v-model.trim="email" placeholder="请输入邮箱地址"></el-input>
       </el-form-item>
@@ -26,6 +29,7 @@ export default {
     return {
       username: '',
       password: '',
+      det_password: '',
       email: ''
     }
   },
@@ -51,6 +55,11 @@ export default {
       }
       if (this.EmailChecker(this.email) === false) {
         alert('邮箱不合法')
+        return
+      }
+
+      if (this.password !== this.det_password) {
+        alert('两次密码输入不一致')
         return
       }
 
