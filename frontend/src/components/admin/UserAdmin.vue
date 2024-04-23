@@ -25,7 +25,7 @@
       </el-table-column>
     </el-table>
 
-    <h2 class="admin-title">Admins</h2>
+    <!-- <h2 class="admin-title">Admins</h2>
     <el-table
       :data="admin"
       style="width: 100%">
@@ -34,7 +34,7 @@
         label="Name">
       </el-table-column>
       <el-table-column></el-table-column>
-    </el-table>
+    </el-table> -->
 
     <!-- Save Changes Button -->
     <el-row type="flex" justify="center" style="margin-top: 20px;">
