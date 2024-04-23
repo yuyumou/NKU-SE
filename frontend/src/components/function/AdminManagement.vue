@@ -56,7 +56,6 @@ import axios from 'axios'
 
 export default {
   name: 'AdminManagement',
-  // TODO(): retrieve the username to prevent the user from changing their own level
   data () {
     return {
       users: [],
@@ -84,7 +83,7 @@ export default {
       var url = 'http://localhost:3000/admin/allusers'
       axios.get(url)
         .then(response => {
-          this.users = response.data
+          this.users = response.data.data
           this.convertedLevels = this.users.map(user => user.user_level === 1)
         })
         .catch(error => {

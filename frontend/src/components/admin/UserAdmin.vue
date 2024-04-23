@@ -8,14 +8,18 @@
 
     <el-table
       :data="users"
-      style="width: 100%">
+      style="width: 100%"
+      height="800px"
+    >
       <el-table-column
         prop="user_name"
-        label="Name">
+        label="Name"
+        >
       </el-table-column>
       <el-table-column
         prop="user_level"
-        label="Is Admin">
+        label="Is Admin"
+        >
         <template slot-scope="scope">
           <el-switch
             v-model="convertedLevels[scope.$index]"
@@ -25,21 +29,13 @@
       </el-table-column>
     </el-table>
 
-    <!-- <h2 class="admin-title">Admins</h2>
-    <el-table
-      :data="admin"
-      style="width: 100%">
-      <el-table-column
-        prop="user_name"
-        label="Name">
-      </el-table-column>
-      <el-table-column></el-table-column>
-    </el-table> -->
-
-    <!-- Save Changes Button -->
-    <el-row type="flex" justify="center" style="margin-top: 20px;">
-      <el-button type="primary" @click="saveChanges">Save Changes</el-button>
-    </el-row>
+    <el-pagination
+      background
+      layout="prev, pager, next"
+      @current-change="handleCurrentChange"
+      :total="total"
+      :page-size="pageSize">
+    </el-pagination>
   </div>
 </template>
 
@@ -52,13 +48,20 @@ export default {
     return {
       users: [],
       admin: [],
-      convertedLevels: []
+      convertedLevels: [],
+      currentPage: 1,
+      pageSize: 10,
+      total: 0
     }
   },
   created () {
     this.fetchData()
   },
   methods: {
+    handleCurrentChange (newPage) {
+      this.currentPage = newPage
+      this.fetchData()
+    },
     fetchData () {
       axios.get('http://localhost:3000/token', {
         headers: { Authorization: localStorage.getItem('token') }
@@ -70,7 +73,7 @@ export default {
             this.$router.push('/')
           } else {
             this.getAllUsers()
-            this.getAllAdmins()
+            // this.getAllAdmins()
           }
         })
       }).catch(error => {
@@ -78,24 +81,16 @@ export default {
       })
     },
     getAllUsers () {
-      axios.get('http://localhost:3000/admin/allusers')
+      axios.get(`http://localhost:3000/admin/allusers?page=${this.currentPage}&pageSize=${this.pageSize}`)
         .then(response => {
-          this.users = response.data
+          this.users = response.data.data
+          this.total = response.data.total
+          // console.log("res: ", response)
           this.convertedLevels = this.users.map(user => user.user_level === 1)
-          console.log('Users loaded:', this.users)
+          // console.log('Users loaded:', this.users)
         })
         .catch(error => {
           console.error('Error fetching users:', error)
-        })
-    },
-    getAllAdmins () {
-      axios.get('http://localhost:3000/admin/alladmins')
-        .then(response => {
-          this.admin = response.data
-          console.log('Admins loaded:', this.admin)
-        })
-        .catch(error => {
-          console.error('Error fetching admins:', error)
         })
     },
     handleLevelChange (index, user) {
@@ -111,11 +106,6 @@ export default {
         .catch(error => {
           console.error('Error updating user level', error)
         })
-    },
-    saveChanges () {
-      console.log('Saving changes...')
-      // Here you can add any pre-reload logic or API calls if necessary
-      location.reload() // This reloads the current page
     }
   }
 }
@@ -128,10 +118,21 @@ export default {
   margin-top: 30px;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 80vh;
+  overflow: auto;
 }
+
 .main-title, .admin-title {
   font-size: 24px;
   text-align: center;
   margin-bottom: 20px;
+}
+
+/* 添加样式来确保分页组件位于底部 */
+.el-pagination {
+  margin-top: auto; /* 将分页组件推到底部 */
 }
 </style>
