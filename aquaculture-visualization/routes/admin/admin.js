@@ -6,7 +6,7 @@ var adminAlladminRouter = require('./all_admins');
 var adminLevelUpRouter = require('./level_up');
 const tokenhandler = require('../../utils/token');
 
-router.use('/',tokenhandler.adminVerify);
+router.use('/',tokenhandler.UserAdminVerify);
 router.use('/allusers',adminAlluserRouter);
 router.use('/alladmins',adminAlladminRouter);
 router.use('/level_up',adminLevelUpRouter);

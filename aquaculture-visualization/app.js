@@ -43,6 +43,8 @@ app.use('/token',tokenhandler.parse);
 var admin = require('./routes/admin/admin');
 app.use('/admin',admin);
 
+var dataAdmin = require('./routes/admin/data');
+app.use('/data',dataAdmin);
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
