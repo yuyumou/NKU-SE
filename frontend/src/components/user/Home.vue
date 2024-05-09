@@ -88,8 +88,8 @@ export default {
 <style scoped>
 .main {
   font-family: Arial, sans-serif;
-  width: 100%;
-  /* max-width: 600px; */
+  /* width: 100%; */
+  max-width: 1000px;
   margin: auto;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
