@@ -552,7 +552,9 @@ export default {
   }
   #main-data {
     /* background: url(~@/assets/bg.jpg) no-repeat top center; */
-    background-color: darkblue;
+    background-image: url('~@/assets/visual/bg1.png'); /* 设置背景图片 */
+    background-size: cover; /* 让背景图片铺满整个容器 */
+    background-repeat: no-repeat; /* 不重复显示背景图片 */
     height: 100vh;
   }
   header {
