@@ -36,7 +36,9 @@
     <div v-else>
       <p>请登录以访问系统</p>
     </div>
+    <div class="contentbg">
     <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -95,5 +97,16 @@ export default {
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   text-align: center;
   margin-top: 60px;
+  /* background-color :aqua; */
+}
+.contentbg{
+  /* background-color: aqua; */
+  padding-top: 150px;
+  padding-bottom: 150px;
+  background-image: url("../../assets/home_bg.png");
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding:20px;
 }
 </style>
