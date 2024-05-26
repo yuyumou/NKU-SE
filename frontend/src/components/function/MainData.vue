@@ -83,6 +83,7 @@
           </div>
           <div class="row2 block">
             <h2>定位</h2>
+            <img src="../../../../maindata_location.png" alt="定位图" style="width: 100%; height: auto;">
           </div>
         </div>
         <!-- 历史记录 设备状态 -->
@@ -700,6 +701,17 @@ export default {
   .mainbox .column .dev-state {
     height: 40%
   }
+
+  .row2 {
+  position: relative; /* 根据需要调整位置 */
+  width: 100%; /* 或根据具体布局调整宽度 */
+  height: auto; /* 高度设置为自动，根据图片调整 */
+}
+
+.row2 img {
+  width: 100%; /* 图片宽度全宽 */
+  height: auto; /* 图片高度自适应 */
+}
 
   #vol-chart {
     width: 100%;
