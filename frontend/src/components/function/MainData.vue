@@ -17,6 +17,10 @@
               <li><button class="round-button">&gt;</button></li>
             </ul>
             <p>这里有一个视频！</p>
+            <video width="100%" controls>
+            <source src="../../../../maindata_show.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
           </div>
           <div class="addfunc">
             <div class="addfuncEle">
