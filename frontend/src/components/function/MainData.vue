@@ -63,6 +63,19 @@
               <img src="~@/assets/云台摄像机.jpg" alt="">
             </div>
           </div>
+          <div>
+            <input type="date" v-model="startDate" placeholder="开始日期" />
+            <input type="date" v-model="endDate" placeholder="结束日期" />
+            <button @click="searchData">查询</button>
+          </div>
+          <div v-if="results.length">
+            <h3>查询结果</h3>
+            <ul>
+              <li v-for="result in results" :key="result.date">
+                日期: {{ result.date }}, 鱼种: {{ result.common_name }}, 数量: {{ result.count }}, 最小长度: {{ result.len_min }}, 最大长度: {{ result.len_max }}, 总重量: {{ result.weigh_total }}
+              </li>
+            </ul>
+          </div>
         </div>
         <!-- 水文气象 海洋牧场位置显示 -->
         <div class="column">
@@ -147,8 +160,33 @@
 
 <script>
 import * as echarts from 'echarts'
+import axios from 'axios'
 export default {
   name: 'MainData',
+  data () {
+    return {
+      startDate: '', // 绑定输入框的数据
+      endDate: '', // 绑定输入框的数据
+      results: [] // 存储查询结果的数组
+    }
+  },
+  methods: {
+    async searchData () {
+      try {
+        const response = await axios.post('http://localhost:3000/fishdata_get', {
+          startDate: this.startDate,
+          endDate: this.endDate
+        })
+        console.log('查询成功')
+        console.log('查询响应:', response.data)
+        this.results = response.data
+      } catch (error) {
+        console.log('reaching here')
+        console.error('Error fetching data:', error)
+        alert('查询出错，请查看控制台了解详情。')
+      }
+    }
+  },
   // 组件的其他代码...
   mounted () {
     // 基于准备好的dom，初始化echarts实例
