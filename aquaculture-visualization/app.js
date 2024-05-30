@@ -29,11 +29,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 var loginRouter = require('./routes/user/login');
 var registerRouter = require('./routes/user/register');
+var aquadata_get = require('./routes/user/aquadata_get');
 
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
+app.use('/aquadata_get', aquadata_get)
+
 
 const tokenhandler = require("./utils/token");
 app.use('/', tokenhandler.verify);

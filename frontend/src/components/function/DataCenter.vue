@@ -81,6 +81,18 @@
           </div>
           <div class="row3">
             数据库交互设计
+            <div>
+      <input v-model="queryProvince" placeholder="输入省份名称进行查询" />
+      <button @click="searchData">查询</button>
+    </div>
+    <div v-if="results.length">
+      <h3>查询结果</h3>
+      <ul>
+        <li v-for="result in results" :key="result.time">
+          省份: {{ result.province }}, 河流: {{ result.river_section }}, 质量: {{ result.quality_type }}, 时间: {{ new Date(result.time).toLocaleString() }}
+        </li>
+      </ul>
+    </div>
           </div>
         </div>
       </section>
@@ -89,8 +101,32 @@
 
 <script>
 import * as echarts from 'echarts'
+import axios from 'axios'
+
 export default {
   name: 'DataCenter',
+  data () {
+    return {
+      queryProvince: '', // 用于绑定输入框的数据
+      results: [] // 用于存储查询结果的数组
+    }
+  },
+  methods: {
+    async searchData () {
+      try {
+        const response = await axios.post('http://localhost:3000/aquadata_get', {
+          province: this.queryProvince
+        })
+        this.results = response.data
+        console.log('查询成功')
+        console.log('查询响应:', response.data)
+      } catch (error) {
+        console.log('reaching here')
+        console.error('Error fetching data:', error)
+        alert('查询出错，请查看控制台了解详情。')
+      }
+    }
+  },
   // 组件的其他代码...
   mounted () {
     var diskChart = echarts.init(document.getElementById('disk-chart'))
