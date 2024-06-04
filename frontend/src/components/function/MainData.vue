@@ -1,74 +1,75 @@
 <template>
-    <div id="main-data">
-      <header>
-        <h1>主要信息</h1>
-      </header>
-      <section class="mainbox">
-        <!-- 监控视频 -->
-        <div class="column block">
-          <h2>监控视频</h2>
-          <div class="video">
-            <ul class="guidebar">
-              <li><button class="round-button">&lt;</button></li>
-              <li>视频1</li>
-              <li>视频2</li>
-              <li>视频3</li>
-              <li>视频4</li>
-              <li><button class="round-button">&gt;</button></li>
-            </ul>
-            <p>这里有一个视频！</p>
-            <video width="100%" controls>
-            <source src="../../../../maindata_show.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
+  <div id="main-data">
+    <header>
+      <h1>主要信息</h1>
+    </header>
+    <section class="mainbox">
+      <!-- 监控视频 -->
+      <div class="column block">
+        <h2>监控视频</h2>
+        <div class="video">
+          <ul class="guidebar">
+            <li><button class="round-button">&lt;</button></li>
+            <li>视频1</li>
+            <li>视频2</li>
+            <li>视频3</li>
+            <li>视频4</li>
+            <li><button class="round-button">&gt;</button></li>
+          </ul>
+          <p>这里有一个视频！</p>
+          <video width="100%" controls>
+          <source src="../../../../maindata_show.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        </div>
+        <div class="addfunc">
+          <div class="addfuncEle">
+            <span>摄像机&nbsp;</span>
+            <input type="checkbox" class="checke">
+            <br>
+            <br>
+            <img src="~@/assets/摄像机.jpg" alt="">
           </div>
-          <div class="addfunc">
-            <div class="addfuncEle">
-              <span>摄像机&nbsp;</span>
-              <input type="checkbox" class="checke">
-              <br>
-              <br>
-              <img src="~@/assets/摄像机.jpg" alt="">
-            </div>
-            <div class="addfuncEle">
-              <span>灯光&nbsp;&nbsp;</span>
-              <input type="checkbox" class="checke">
-              <br>
-              <br>
-              <img src="~@/assets/灯光.jpg" alt="">
-            </div>
-            <div class="addfuncEle">
-              <span>清洁刷&nbsp;</span>
-              <input type="checkbox" class="checke">
-              <br>
-              <br>
-              <img src="~@/assets/清洁刷.jpg" alt="">
-            </div>
-            <div class="addfuncEle">
-              <span>视频回放</span>
-              <br>
-              <br>
-              <img src="~@/assets/视频回放.jpg" alt="">
-            </div>
-            <div class="addfuncEle">
-              <span>视频同时播放</span>
-              <br>
-              <br>
-              <img src="~@/assets/视频同时播放.jpg" alt="">
-            </div>
-            <div class="addfuncEle">
-              <span>云台摄像机</span>
-              <br>
-              <br>
-              <img src="~@/assets/云台摄像机.jpg" alt="">
-            </div>
+          <div class="addfuncEle">
+            <span>灯光&nbsp;&nbsp;</span>
+            <input type="checkbox" class="checke">
+            <br>
+            <br>
+            <img src="~@/assets/灯光.jpg" alt="">
           </div>
-          <div>
-            <input type="date" v-model="startDate" placeholder="开始日期" />
-            <input type="date" v-model="endDate" placeholder="结束日期" />
-            <button @click="searchData">查询</button>
+          <div class="addfuncEle">
+            <span>清洁刷&nbsp;</span>
+            <input type="checkbox" class="checke">
+            <br>
+            <br>
+            <img src="~@/assets/清洁刷.jpg" alt="">
           </div>
-          <div v-if="results.length">
+          <div class="addfuncEle">
+            <span>视频回放</span>
+            <br>
+            <br>
+            <img src="~@/assets/视频回放.jpg" alt="">
+          </div>
+          <div class="addfuncEle">
+            <span>视频同时播放</span>
+            <br>
+            <br>
+            <img src="~@/assets/视频同时播放.jpg" alt="">
+          </div>
+          <div class="addfuncEle">
+            <span>云台摄像机</span>
+            <br>
+            <br>
+            <img src="~@/assets/云台摄像机.jpg" alt="">
+          </div>
+        </div>
+        <div>
+          <input type="date" v-model="startDate" placeholder="开始日期" />
+          <input type="date" v-model="endDate" placeholder="结束日期" />
+          <button @click="searchData">查询</button>
+        </div>
+        <div>
+          <div v-if="results.length" class="highlighted-results">
             <h3>查询结果</h3>
             <ul>
               <li v-for="result in results" :key="result.date">
@@ -77,86 +78,105 @@
             </ul>
           </div>
         </div>
-        <!-- 水文气象 海洋牧场位置显示 -->
-        <div class="column">
-          <div class="row1 block">
-            <h2>水文气象</h2>
-            <!-- <p>电池电压（V）<span>0.00</span></p>
-            <p>盐度（‰）<span>0.00</span></p>
-            <p>溶解氧（mg/L）<span>0.00</span></p>
-            <p>浊度（NTU）<span>0.00</span></p>
-            <p>pH  <span>0.00</span></p>
-            <p>水温（℃）<span>0.00</span></p> -->
-            <div id="vol-chart"></div>
-            <div id="salt-chart"></div>
-            <div id="oxy-chart"></div>
-            <div id="turb-chart"></div>
-            <div id="ph-chart"></div>
-            <div id="temp-chart"></div>
-          </div>
-          <div class="row2 block">
-            <h2>定位</h2>
-            <img src="../../../../maindata_location.png" alt="定位图" style="width: 100%; height: auto;">
-          </div>
+        <!-- <div>
+          <el-card class="highlighted-results" v-if="results.length">
+            <h3 style="color: #1890ff;">查询结果</h3>
+            <el-divider></el-divider>
+            <ul>
+              <li v-for="result in results" :key="result.date">
+                日期: {{ result.date }}<br>
+                鱼种: {{ result.common_name }}<br>
+                数量: {{ result.count }}<br>
+                最小长度: {{ result.len_min }}<br>
+                最大长度: {{ result.len_max }}<br>
+                总重量: {{ result.weigh_total }}
+              </li>
+              <el-divider v-if="!$last"></el-divider>
+            </ul>
+          </el-card>
+        </div> -->
+        
+      </div>  
+      <!-- 水文气象 海洋牧场位置显示 -->
+      <div class="column">
+        <div class="row1 block">
+          <h2>水文气象</h2>
+          <!-- <p>电池电压（V）<span>0.00</span></p>
+          <p>盐度（‰）<span>0.00</span></p>
+          <p>溶解氧（mg/L）<span>0.00</span></p>
+          <p>浊度（NTU）<span>0.00</span></p>
+          <p>pH  <span>0.00</span></p>
+          <p>水温（℃）<span>0.00</span></p> -->
+          <div id="vol-chart"></div>
+          <div id="salt-chart"></div>
+          <div id="oxy-chart"></div>
+          <div id="turb-chart"></div>
+          <div id="ph-chart"></div>
+          <div id="temp-chart"></div>
         </div>
-        <!-- 历史记录 设备状态 -->
-        <div class="column">
-          <div class="history block">
-            <h2>历史记录</h2>
-            <p>统计时间：
-              <input type="date" name="date" id="date" value="" />
-              <input type="time" name="date" id="time" value="" />
-              至
-              <input type="date" name="date" id="date" value="" />
-              <input type="time" name="date" id="time" value="" />
-              <button>查询</button>
-            </p>
-            <br>
-            <ul class="guidebar">
-              <li class="timescale">过去一天</li>
-              <li class="timescale">过去一周</li>
-              <li class="timescale">过去一月</li>
-              <li class="timescale">过去一年</li>
-              <li>
-                <select id="mySelect">
-                  <option value="option1">电池电压</option>
-                  <option value="option1">盐度</option>
-                  <option value="option3">溶解度</option>
-                  <option value="option2">浊度</option>
-                  <option value="option2">ph</option>
-                  <option value="option2">水温</option>
-                </select>
-              </li>
-            </ul>
-            <div id="history-chart"></div>
-          </div>
-          <div class="dev-state block">
-            <h2>设备状态</h2>
-            <ul class="guidebar">
-              <li class="timescale">主控</li>
-              <li class="timescale">时间校准</li>
-              <li class="timescale">通道</li>
-              <li class="timescale">告警</li>
-            </ul>
-            <ul class="state">
-              <li>设备ID：<span>8D19C331</span></li>
-              <li>主控状态
-                <ul>
-                  <li>版本：<span>V0.1.1</span></li>
-                  <li>温度：<span>39.64℃</span></li>
-                </ul>
-              </li>
-              <li>次控状态
-                <ul>
-                  <li>连接：<span>断开</span></li>
-                </ul>
-              </li>
-            </ul>
-          </div>
+        <div class="row2 block">
+          <h2>定位</h2>
+          <img src="../../../../maindata_location.png" alt="定位图" style="width: 100%; height: auto;">
         </div>
-      </section>
-    </div>
-  </template>
+      </div>
+      <!-- 历史记录 设备状态 -->
+      <div class="column">
+        <div class="history block">
+          <h2>历史记录</h2>
+          <p>统计时间：
+            <input type="date" name="date" id="date" value="" />
+            <input type="time" name="date" id="time" value="" />
+            至
+            <input type="date" name="date" id="date" value="" />
+            <input type="time" name="date" id="time" value="" />
+            <button>查询</button>
+          </p>
+          <br>
+          <ul class="guidebar">
+            <li class="timescale">过去一天</li>
+            <li class="timescale">过去一周</li>
+            <li class="timescale">过去一月</li>
+            <li class="timescale">过去一年</li>
+            <li>
+              <select id="mySelect">
+                <option value="option1">电池电压</option>
+                <option value="option1">盐度</option>
+                <option value="option3">溶解度</option>
+                <option value="option2">浊度</option>
+                <option value="option2">ph</option>
+                <option value="option2">水温</option>
+              </select>
+            </li>
+          </ul>
+          <div id="history-chart"></div>
+        </div>
+        <div class="dev-state block">
+          <h2>设备状态</h2>
+          <ul class="guidebar">
+            <li class="timescale">主控</li>
+            <li class="timescale">时间校准</li>
+            <li class="timescale">通道</li>
+            <li class="timescale">告警</li>
+          </ul>
+          <ul class="state">
+            <li>设备ID：<span>8D19C331</span></li>
+            <li>主控状态
+              <ul>
+                <li>版本：<span>V0.1.1</span></li>
+                <li>温度：<span>39.64℃</span></li>
+              </ul>
+            </li>
+            <li>次控状态
+              <ul>
+                <li>连接：<span>断开</span></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+</template>
 
 <script>
 import * as echarts from 'echarts'
@@ -172,6 +192,9 @@ export default {
   },
   methods: {
     async searchData () {
+      console.log('hello world')
+      console.log(this.startDate)
+      console.log(this.endDate)
       try {
         const response = await axios.post('http://localhost:3000/fishdata_get', {
           startDate: this.startDate,
@@ -794,5 +817,22 @@ export default {
   ul.state ul {
     padding-left: 20px; /* 调整子级列表的左侧内边距 */
   }
+
+.highlighted-results {
+  position: absolute;
+  top: 430px;
+  left: 60px;
+  max-height: 260px;
+  overflow-y: auto; /* 超出内容显示滚动条 */
+  background-color: #001529; /* 深蓝色背景 */
+  border: 2px solid #1890ff; /* 蓝色边框 */
+  padding: 20px; /* 增加内边距 */
+  margin: 20px 0; /* 增加外边距 */
+  border-radius: 10px; /* 圆角边框 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加阴影 */
+  z-index: 1000; /* 确保它显示在其他内容之上 */
+  width: 300px;
+  color: #fff; /* 白色文字 */
+}
 
 </style>
