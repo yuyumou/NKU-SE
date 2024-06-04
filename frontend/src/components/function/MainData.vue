@@ -63,7 +63,7 @@
             <img src="~@/assets/云台摄像机.jpg" alt="">
           </div>
         </div>
-        <div>
+        <div class="form-container">
           <input type="date" v-model="startDate" placeholder="开始日期" />
           <input type="date" v-model="endDate" placeholder="结束日期" />
           <button @click="searchData">查询</button>
@@ -78,25 +78,8 @@
             </ul>
           </div>
         </div>
-        <!-- <div>
-          <el-card class="highlighted-results" v-if="results.length">
-            <h3 style="color: #1890ff;">查询结果</h3>
-            <el-divider></el-divider>
-            <ul>
-              <li v-for="result in results" :key="result.date">
-                日期: {{ result.date }}<br>
-                鱼种: {{ result.common_name }}<br>
-                数量: {{ result.count }}<br>
-                最小长度: {{ result.len_min }}<br>
-                最大长度: {{ result.len_max }}<br>
-                总重量: {{ result.weigh_total }}
-              </li>
-              <el-divider v-if="!$last"></el-divider>
-            </ul>
-          </el-card>
-        </div> -->
-        
-      </div>  
+
+      </div>
       <!-- 水文气象 海洋牧场位置显示 -->
       <div class="column">
         <div class="row1 block">
@@ -187,15 +170,27 @@ export default {
     return {
       startDate: '', // 绑定输入框的数据
       endDate: '', // 绑定输入框的数据
-      results: [] // 存储查询结果的数组
+      results: [], // 存储查询结果的数组
+      Evaporation: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
+      Precipitation: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+      Temperature: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
     }
   },
   methods: {
+    getRandomInt (min, max) {
+      min = Math.ceil(min)
+      max = Math.floor(max)
+      return Math.floor(Math.random() * (max - min + 1)) + min // 含min，含max
+    },
+    generateRandomValues () {
+      this.Evaporation = this.Evaporation.map(() => this.getRandomInt(10, 200))
+      this.Precipitation = this.Precipitation.map(() => this.getRandomInt(20, 150))
+      this.Temperature = this.Temperature.map(() => this.getRandomInt(0, 20))
+    },
+
     async searchData () {
-      console.log('hello world')
-      console.log(this.startDate)
-      console.log(this.endDate)
       try {
+        this.generateRandomValues()
         const response = await axios.post('http://localhost:3000/fishdata_get', {
           startDate: this.startDate,
           endDate: this.endDate
@@ -203,15 +198,43 @@ export default {
         console.log('查询成功')
         console.log('查询响应:', response.data)
         this.results = response.data
+        this.updateCharts()
       } catch (error) {
         console.log('reaching here')
         console.error('Error fetching data:', error)
         alert('查询出错，请查看控制台了解详情。')
       }
+    },
+    updateCharts () {
+    // 更新图表配置项和数据
+      const historyChart = echarts.getInstanceByDom(document.getElementById('history-chart'))
+      historyChart.setOption({
+        series: [
+          {
+            name: 'Evaporation',
+            type: 'bar',
+            data: this.Evaporation
+          },
+          {
+            name: 'Precipitation',
+            type: 'bar',
+            data: this.Precipitation
+          },
+          {
+            name: 'Temperature',
+            type: 'line',
+            yAxisIndex: 1,
+            data: this.Temperature
+          }
+        ]
+      })
     }
+
   },
   // 组件的其他代码...
   mounted () {
+    this.generateRandomValues()
+
     // 基于准备好的dom，初始化echarts实例
     var volChart = echarts.init(document.getElementById('vol-chart'))
     var saltChart = echarts.init(document.getElementById('salt-chart'))
@@ -565,9 +588,7 @@ export default {
               return value + ' ml'
             }
           },
-          data: [
-            2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3
-          ]
+          data: this.Evaporation
         },
         {
           name: 'Precipitation',
@@ -577,9 +598,7 @@ export default {
               return value + ' ml'
             }
           },
-          data: [
-            2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3
-          ]
+          data: this.Precipitation
         },
         {
           name: 'Temperature',
@@ -590,7 +609,7 @@ export default {
               return value + ' °C'
             }
           },
-          data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+          data: this.Temperature
         }
       ]
     }
@@ -820,19 +839,49 @@ export default {
 
 .highlighted-results {
   position: absolute;
-  top: 430px;
-  left: 60px;
-  max-height: 260px;
+  bottom: -40px;
+  right: 60px;
+  max-height: 250px;
   overflow-y: auto; /* 超出内容显示滚动条 */
   background-color: #001529; /* 深蓝色背景 */
   border: 2px solid #1890ff; /* 蓝色边框 */
-  padding: 20px; /* 增加内边距 */
-  margin: 20px 0; /* 增加外边距 */
   border-radius: 10px; /* 圆角边框 */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加阴影 */
   z-index: 1000; /* 确保它显示在其他内容之上 */
   width: 300px;
   color: #fff; /* 白色文字 */
+}
+
+.form-container {
+  position: absolute;
+  bottom: -40px;
+  right: 460px;
+  background-color: #001529; /* 深蓝色背景 */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加阴影 */
+}
+
+.form-container input,
+.form-container button {
+  margin: 5px 0; /* 添加上下边距 */
+  display: block; /* 使元素独占一行 */
+  width: 100%; /* 使输入框和按钮宽度适应容器 */
+}
+
+.form-container input {
+  padding: 5px; /* 增加内边距 */
+  border-radius: 5px; /* 圆角边框 */
+  border: 1px solid #1890ff; /* 蓝色边框 */
+  background-color: #f0f0f0; /* 浅灰色背景 */
+}
+
+.form-container button {
+  padding: 5px; /* 增加内边距 */
+  border-radius: 5px; /* 圆角边框 */
+  border: none; /* 移除边框 */
+  background-color: #1890ff; /* 蓝色背景 */
+  color: #fff; /* 白色文字 */
+  cursor: pointer; /* 鼠标指针 */
 }
 
 </style>
