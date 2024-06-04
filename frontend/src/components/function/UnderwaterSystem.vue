@@ -75,7 +75,7 @@
             <div class="total-data-number">
               <div class="data-block">
                 <p>已保障养殖鱼群</p>
-                <p>15000尾</p>
+                <p>35000尾</p>
               </div>
             </div>
           </div>
@@ -346,11 +346,11 @@ export default {
             show: false
           },
           data: [
-            { value: 1048, name: 'Search Engine' },
-            { value: 735, name: 'Direct' },
-            { value: 580, name: 'Email' },
-            { value: 484, name: 'Union Ads' },
-            { value: 300, name: 'Video Ads' }
+            { value: 1048, name: '鲤鱼' },
+            { value: 735, name: '鲫鱼' },
+            { value: 580, name: '巴沙鱼' },
+            { value: 484, name: '草鱼' },
+            { value: 300, name: '其他' }
           ]
         }
       ]
