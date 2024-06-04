@@ -34,11 +34,13 @@ var loginRouter = require('./routes/user/login');
 var registerRouter = require('./routes/user/register');
 var aquadata_get = require('./routes/user/aquadata_get');
 var fishdata_get = require('./routes/user/fishdata_get');
+var fishcountdata_get = require('./routes/user/fishcountdata_get');
 
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
 app.use('/aquadata_get', aquadata_get);
 app.use('/fishdata_get',fishdata_get);
+app.use('/fishcountdata_get',fishcountdata_get);
 
 const tokenhandler = require("./utils/token");
 app.use('/', tokenhandler.verify);

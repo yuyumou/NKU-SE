@@ -132,10 +132,34 @@
 
 <script>
 import * as echarts from 'echarts'
+import axios from 'axios'
 export default {
   name: 'UnderwaterSystem',
+  data () {
+    return {
+      fishcntResults: []
+    }
+  },
+  methods: {
+    async searchData (startDateI, endDateI) {
+      console.log(startDateI, endDateI)
+      try {
+        const response = await axios.post('http://localhost:3000/fishcountdata_get', {
+          startDate: startDateI,
+          endDate: endDateI
+        })
+        console.log('查询成功')
+        console.log('查询响应:', response.data)
+        this.fishcntResults = response.data
+      } catch (error) {
+        console.log('Error fetching data:', error)
+        alert('查询出错，请查看控制台了解详情')
+      }
+    }
+  },
   // 组件的其他代码...
   mounted () {
+    // this.searchData(new Date(2020, 1, 1), new Date(2020, 3, 1))
     var scoreChart = echarts.init(document.getElementById('score-chart'))
     var historyChart = echarts.init(document.getElementById('history-chart'))
     var totalDataChart = echarts.init(document.getElementById('total-data-show2'))
