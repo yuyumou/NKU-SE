@@ -6,6 +6,7 @@ CREATE TABLE fish_count_data (
     size_cm INT
 );
 
+
 -- 插入数据
 INSERT INTO fish_count_data (date, fish_type, quantity, size_cm) VALUES
 ('2020-01-01', '鲈鱼', 30, 29),
